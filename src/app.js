@@ -50,7 +50,7 @@ app.get("/help", (request, response) => {
   response.send(renderHelpPage(response.locals));
 });
 
-// 首页聚合系统所有主要入口，方便主会场快速进入对应控制页。
+// 首页只面向普通参会者，避免管理入口与参会入口混在同一页面。
 app.get("/", async (request, response) => {
   const config = response.locals.config;
   const roomCount = config.rooms.length;
@@ -58,17 +58,68 @@ app.get("/", async (request, response) => {
 
   response.send(
     renderPage({
-      title: "系统首页",
+      title: "参会者首页",
       body: `
         <section class="hero">
           <div>
-            <div class="eyebrow">数字化网格管理会议系统</div>
+            <div class="eyebrow">参会者入口</div>
             <h1>${escapeHtml(config.siteName)}</h1>
-            <p>当前已纳管 ${roomCount} 个分会场、${groupCount} 个分组。系统支持固定会场接入、统一每日口令、分组主持入口、总主持人统一调度，以及配合 Edge 和 Revolver Tabs 的轮巡查看模式。</p>
+            <p>当前已纳管 ${roomCount} 个分会场、${groupCount} 个分组。请参会人员根据会前收到的固定链接或会场二维码进入对应分会场，输入姓名和当日统一口令后入会。</p>
+            <div class="button-row">
+              <a class="button primary" href="${routePath(response.locals, "/help")}">查看使用说明</a>
+              <a class="button" href="${routePath(response.locals, "/console")}">管理工作台</a>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>参会提示</h2>
+            <ul class="list">
+              <li>分会场用户请使用会前收到的固定分会场链接。</li>
+              <li>进入前需要填写“姓名”与“当日统一口令”。</li>
+              <li>如需主持权限，请使用专用主持人链接，不要使用普通参会链接。</li>
+            </ul>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>固定会场入口</h2>
+          <div class="grid cards">
+            ${config.rooms
+              .map(
+                (room) => `
+                  <a class="card" href="${routePath(response.locals, `/join/${encodeURIComponent(room.slug)}`)}">
+                    <strong>${escapeHtml(room.name)}</strong>
+                    <span>所属分组：${escapeHtml(findGroupName(config, room.groupSlug))}</span>
+                    <span>适用对象：分会场普通参会终端</span>
+                  </a>
+                `
+              )
+              .join("")}
+          </div>
+        </section>
+      `
+    })
+  );
+});
+
+// 管理工作台仅提供给总主持、分组主持和系统管理员。
+app.get("/console", async (request, response) => {
+  const config = response.locals.config;
+  const roomCount = config.rooms.length;
+  const groupCount = config.groups.length;
+
+  response.send(
+    renderPage({
+      title: "管理工作台",
+      body: `
+        <section class="hero">
+          <div>
+            <div class="eyebrow">管理工作台</div>
+            <h1>会议管理与调度入口</h1>
+            <p>本页供总主持人、分组主持人和系统管理员使用。参会人员请返回参会者首页，从固定会场入口进入对应分会场。</p>
             <div class="button-row">
               <a class="button primary" href="${routePath(response.locals, "/master")}">总主持人入口</a>
               <a class="button" href="${routePath(response.locals, "/help")}">使用说明</a>
               <a class="button" href="${routePath(response.locals, "/admin")}">系统管理</a>
+              <a class="button" href="${routePath(response.locals, "/")}">参会者首页</a>
             </div>
           </div>
           <div class="panel">
@@ -88,14 +139,32 @@ app.get("/", async (request, response) => {
           </div>
         </section>
         <section class="panel">
-          <h2>固定会场入口</h2>
+          <h2>管理信息概览</h2>
+          <div class="grid cards">
+            <article class="card">
+              <strong>分组数量</strong>
+              <span>当前共 ${groupCount} 个分组。</span>
+            </article>
+            <article class="card">
+              <strong>分会场数量</strong>
+              <span>当前共 ${roomCount} 个固定分会场。</span>
+            </article>
+            <article class="card">
+              <strong>推荐值守方式</strong>
+              <span>管理端建议使用 Edge 配合 Revolver Tabs 进行轮巡查看。</span>
+            </article>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>房间主持快捷入口</h2>
           <div class="grid cards">
             ${config.rooms
               .map(
                 (room) => `
-                  <a class="card" href="${routePath(response.locals, `/join/${encodeURIComponent(room.slug)}`)}">
+                  <a class="card" href="${routePath(response.locals, `/moderator/${encodeURIComponent(room.slug)}`)}">
                     <strong>${escapeHtml(room.name)}</strong>
-                    <span>分组：${escapeHtml(findGroupName(config, room.groupSlug))}</span>
+                    <span>所属分组：${escapeHtml(findGroupName(config, room.groupSlug))}</span>
+                    <span>适用对象：房间主持人</span>
                   </a>
                 `
               )
