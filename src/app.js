@@ -58,16 +58,16 @@ app.get("/", async (request, response) => {
       body: `
         <section class="hero">
           <div>
-            <div class="eyebrow">BigBlueButton 固定房间总控门户</div>
+            <div class="eyebrow">数字化网格管理会议系统</div>
             <h1>${escapeHtml(config.siteName)}</h1>
-            <p>当前系统已接入 ${roomCount} 个分会场、${groupCount} 个分组。支持固定房间、统一每日密码、分组主持入口、总主持人入口，以及适配 Edge + Revolver Tabs 的轮播监看模式。</p>
+            <p>当前已纳管 ${roomCount} 个分会场、${groupCount} 个分组。系统支持固定会场接入、统一每日口令、分组主持入口、总主持人统一调度，以及配合 Edge 和 Revolver Tabs 的轮巡查看模式。</p>
             <div class="button-row">
               <a class="button primary" href="${routePath(response.locals, "/master")}">总主持人入口</a>
               <a class="button" href="${routePath(response.locals, "/admin")}">系统管理</a>
             </div>
           </div>
           <div class="panel">
-            <h2>分组主持入口</h2>
+            <h2>分组主持工作台</h2>
             <div class="grid cards">
               ${config.groups
                 .map(
@@ -83,7 +83,7 @@ app.get("/", async (request, response) => {
           </div>
         </section>
         <section class="panel">
-          <h2>快速入会入口</h2>
+          <h2>固定会场入口</h2>
           <div class="grid cards">
             ${config.rooms
               .map(
@@ -446,7 +446,7 @@ function renderJoinPage(locals, room, role, errorText) {
       <section class="panel narrow">
         <div class="eyebrow">${escapeHtml(findGroupName(locals.config, room.groupSlug))}</div>
         <h1>${escapeHtml(room.name)} ${roleName}</h1>
-        <p>通过固定链接进入本房间。请输入姓名和当天统一密码，系统会自动创建或唤起对应的 BigBlueButton 会议室。</p>
+        <p>请通过固定链接进入本会场，填写姓名和当日统一口令后，系统将自动拉起对应会议室。</p>
         ${renderError(errorText)}
         <form method="post" class="form">
           <label>姓名或会场名称<input name="fullName" placeholder="例如：第一分会场" required /></label>
@@ -465,7 +465,7 @@ function renderGroupLoginPage(locals, group, errorText) {
       <section class="panel narrow">
         <div class="eyebrow">分组主持入口</div>
         <h1>${escapeHtml(group.name)}</h1>
-        <p>登录后可查看本组分会场状态、打开多个主持标签页，并使用 Edge + Revolver Tabs 做轮播监看。</p>
+        <p>登录后可查看本组分会场状态，批量打开主持页面，并配合 Edge 与 Revolver Tabs 执行轮巡查看。</p>
         ${renderError(errorText)}
         <form method="post" action="${routePath(locals, `/group/${encodeURIComponent(group.slug)}/login`)}" class="form">
           <label>主持人名称<input name="fullName" placeholder="例如：第一组主持人" required /></label>
@@ -484,7 +484,7 @@ function renderMasterLoginPage(locals, errorText) {
       <section class="panel narrow">
         <div class="eyebrow">总主持人总控台</div>
         <h1>总主持人入口</h1>
-        <p>登录后可查看全部分组与全部分会场，并快速进入任意主持入口。</p>
+        <p>登录后可统一查看全部分组和全部分会场，并快速进入任意主持入口开展调度。</p>
         ${renderError(errorText)}
         <form method="post" action="${routePath(locals, "/master/login")}" class="form">
           <label>总主持人名称<input name="fullName" placeholder="例如：总主持人" required /></label>
@@ -505,18 +505,18 @@ function renderGroupConsolePage(locals, group, rooms, statuses) {
       <section class="panel">
         <div class="eyebrow">${escapeHtml(locals.config.siteName)}</div>
         <h1>${escapeHtml(group.name)} 控制台</h1>
-        <p>本组建议同时监看 ${group.wallSize} 个分会场。下面的入口会始终指向固定房间，方便主持人用 Edge 打开多个标签页，再交给 Revolver Tabs 自动轮播。</p>
+        <p>本组建议同时查看 ${group.wallSize} 个分会场。以下入口均指向固定房间，便于主持人在 Edge 中打开多个标签页，再交由 Revolver Tabs 自动轮巡。</p>
         <div class="button-row">
           <button class="button primary" type="button" onclick="openBatch(${escapeAttribute(JSON.stringify(launchLinks))})">一键打开本组主持标签页</button>
           <a class="button" href="${routePath(locals, "/")}">返回首页</a>
         </div>
       </section>
       <section class="panel">
-        <h2>轮播建议</h2>
+        <h2>轮巡查看建议</h2>
         <ul class="list">
-          <li>浏览器固定使用 Edge。</li>
-          <li>安装 Revolver Tabs 插件后，将切页间隔设置为 ${locals.config.wall.defaultSecondsPerTab} 秒。</li>
-          <li>如果当前大屏同时显示 2 至 8 个窗口，可只打开需要监看的分会场标签页。</li>
+          <li>建议固定使用 Edge 浏览器作为值守终端。</li>
+          <li>安装 Revolver Tabs 插件后，可将切页间隔设置为 ${locals.config.wall.defaultSecondsPerTab} 秒。</li>
+          <li>如当前大屏同时显示 2 至 8 个窗口，可只打开需要重点查看的分会场标签页。</li>
         </ul>
       </section>
       <section class="grid cards">
@@ -552,7 +552,7 @@ function renderMasterConsolePage(locals, groupedRooms) {
       <section class="panel">
         <div class="eyebrow">总主持人总控台</div>
         <h1>全部分会场</h1>
-        <p>这里按分组展示所有固定房间。总主持人可从此页面快速进入任意分会场主持入口，也可批量打开标签页并交由 Edge + Revolver Tabs 做轮播。</p>
+        <p>本页按分组展示全部固定房间。总主持人可快速进入任意分会场主持入口，也可批量打开标签页并交由 Edge 与 Revolver Tabs 执行轮巡。</p>
         <div class="button-row">
           <button class="button primary" type="button" onclick="openBatch(${escapeAttribute(JSON.stringify(launchLinks))})">打开全部主持标签页</button>
           <a class="button" href="${routePath(locals, "/")}">返回首页</a>
@@ -595,7 +595,7 @@ function renderAdminLoginPage(locals, errorText) {
       <section class="panel narrow">
         <div class="eyebrow">系统管理</div>
         <h1>管理员登录</h1>
-        <p>此入口用于维护每日统一密码、分组配置、房间配置和二维码导出。</p>
+        <p>此入口用于维护每日统一口令、分组配置、会场配置和二维码导出。</p>
         ${renderError(errorText)}
         <form method="post" action="${routePath(locals, "/admin/login")}" class="form">
           <label>管理员口令<input name="adminPassword" type="password" required /></label>
@@ -615,16 +615,16 @@ function renderAdminPage(locals, errorText) {
       <section class="panel">
         <div class="eyebrow">系统管理</div>
         <h1>房间与分组配置</h1>
-        <p>当前共有 ${config.groups.length} 个分组、${config.rooms.length} 个分会场。房间数量不写死，可持续增加。</p>
+        <p>当前共有 ${config.groups.length} 个分组、${config.rooms.length} 个分会场。会场数量采用配置化管理，可按需持续增加。</p>
         ${renderError(errorText)}
         <div class="button-row">
-          <a class="button" href="${routePath(locals, "/admin/export")}" target="_blank" rel="noreferrer">导出 JSON 配置</a>
+          <a class="button" href="${routePath(locals, "/admin/export")}" target="_blank" rel="noreferrer">导出配置文件</a>
           <a class="button" href="${routePath(locals, "/admin/qrcodes")}" target="_blank" rel="noreferrer">查看二维码页</a>
         </div>
       </section>
       <section class="grid admin-grid">
         <form method="post" action="${routePath(locals, "/admin/daily-password")}" class="panel form">
-          <h2>每日统一密码</h2>
+          <h2>每日统一口令</h2>
           <label>当前密码<input name="dailyPassword" value="${escapeAttribute(config.dailyPassword)}" required /></label>
           <button class="button primary" type="submit">保存密码</button>
         </form>
@@ -657,7 +657,7 @@ function renderAdminPage(locals, errorText) {
       <section class="panel">
         <h2>高级配置导入</h2>
         <form method="post" action="${routePath(locals, "/admin/import")}" class="form">
-          <label>完整 JSON 配置<textarea name="rawConfig" rows="20">${escapeHtml(JSON.stringify(config, null, 2))}</textarea></label>
+          <label>完整配置内容<textarea name="rawConfig" rows="20">${escapeHtml(JSON.stringify(config, null, 2))}</textarea></label>
           <button class="button primary" type="submit">覆盖导入配置</button>
         </form>
       </section>
@@ -671,7 +671,7 @@ function renderQrPage(locals, items) {
     body: `
       <section class="panel">
         <h1>房间二维码</h1>
-        <p>可将下列二维码分别发给分会场和主持人。二维码只包含固定入口地址，真正入会仍需填写每日统一密码。</p>
+        <p>可将下列二维码分别发给分会场和主持人。二维码仅包含固定入口地址，正式入会仍需填写每日统一口令。</p>
       </section>
       <section class="grid qr-grid">
         ${items

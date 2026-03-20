@@ -1,15 +1,18 @@
 :root {
-  --bg: #edf2f7;
+  --bg: #eef3f8;
   --panel: #ffffff;
-  --panel-alt: #f8fafc;
-  --text: #14213d;
-  --muted: #52627a;
-  --line: #d7dee8;
-  --primary: #005f73;
-  --primary-hover: #0a7b92;
+  --panel-alt: #f4f8fc;
+  --text: #10233f;
+  --muted: #4d617d;
+  --line: #cfd9e6;
+  --primary: #0b4ea2;
+  --primary-hover: #0d5fc6;
+  --primary-soft: #e8f0fb;
+  --accent: #c81e1e;
+  --accent-soft: #fff1f1;
   --danger: #b42318;
-  --success: #12724a;
-  --shadow: 0 20px 40px rgba(20, 33, 61, 0.08);
+  --success: #0f6b41;
+  --shadow: 0 20px 40px rgba(16, 35, 63, 0.08);
 }
 
 * {
@@ -18,34 +21,58 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
   background:
-    radial-gradient(circle at top right, rgba(0, 95, 115, 0.12), transparent 24%),
-    linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%);
+    linear-gradient(180deg, rgba(11, 78, 162, 0.08) 0%, rgba(11, 78, 162, 0) 140px),
+    linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
   color: var(--text);
 }
 
 .shell {
   width: min(1200px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 32px 0 48px;
+  padding: 22px 0 48px;
+}
+
+.shell::before {
+  content: "";
+  display: block;
+  height: 6px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0, var(--accent) 140px, var(--primary) 140px, var(--primary) 100%);
 }
 
 .hero,
 .panel {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(215, 222, 232, 0.9);
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(207, 217, 230, 0.95);
+  border-radius: 18px;
   box-shadow: var(--shadow);
   padding: 24px;
   margin-bottom: 20px;
-  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.hero::before,
+.panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, var(--accent) 0 120px, var(--primary) 120px 100%);
 }
 
 .hero {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 20px;
+  background:
+    linear-gradient(135deg, rgba(11, 78, 162, 0.04) 0%, rgba(255, 255, 255, 0) 55%),
+    rgba(255, 255, 255, 0.98);
 }
 
 .narrow {
@@ -55,11 +82,12 @@ body {
 }
 
 .eyebrow {
-  color: var(--primary);
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding-left: 10px;
+  border-left: 4px solid var(--accent);
 }
 
 h1,
@@ -72,11 +100,13 @@ ul {
 h1 {
   font-size: clamp(28px, 4vw, 40px);
   margin-bottom: 12px;
+  color: #0b2c5f;
 }
 
 h2 {
   font-size: 22px;
   margin-bottom: 12px;
+  color: #143a73;
 }
 
 p,
@@ -107,9 +137,17 @@ label {
   text-decoration: none;
   color: inherit;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 18px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--panel-alt) 100%);
+  background:
+    linear-gradient(180deg, rgba(11, 78, 162, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(11, 78, 162, 0.28);
+  box-shadow: 0 16px 28px rgba(11, 78, 162, 0.08);
 }
 
 .card-room {
@@ -133,12 +171,12 @@ label {
 }
 
 .status.online {
-  background: rgba(18, 114, 74, 0.12);
+  background: rgba(15, 107, 65, 0.12);
   color: var(--success);
 }
 
 .status.offline {
-  background: rgba(180, 35, 24, 0.12);
+  background: rgba(200, 30, 30, 0.1);
   color: var(--danger);
 }
 
@@ -155,7 +193,7 @@ label {
   justify-content: center;
   min-height: 44px;
   padding: 0 18px;
-  border-radius: 999px;
+  border-radius: 10px;
   border: 1px solid var(--line);
   color: var(--text);
   text-decoration: none;
@@ -165,7 +203,7 @@ label {
 }
 
 .button.primary {
-  border-color: transparent;
+  border-color: var(--primary);
   background: var(--primary);
   color: #ffffff;
 }
@@ -200,9 +238,17 @@ select,
 textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 12px 14px;
   background: #ffffff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(11, 78, 162, 0.45);
+  box-shadow: 0 0 0 3px rgba(11, 78, 162, 0.12);
 }
 
 textarea {
@@ -223,8 +269,9 @@ textarea {
 .error {
   margin-bottom: 12px;
   padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(180, 35, 24, 0.08);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(200, 30, 30, 0.16);
   color: var(--danger);
 }
 
@@ -239,7 +286,7 @@ textarea {
 .qr-card img {
   width: 180px;
   height: 180px;
-  border-radius: 16px;
+  border-radius: 10px;
   border: 1px solid var(--line);
 }
 
@@ -252,5 +299,9 @@ textarea {
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
+  }
+
+  .shell {
+    width: min(100% - 20px, 1200px);
   }
 }
