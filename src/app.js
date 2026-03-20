@@ -46,6 +46,10 @@ app.get("/healthz", (request, response) => {
   response.json({ ok: true, time: new Date().toISOString() });
 });
 
+app.get("/help", (request, response) => {
+  response.send(renderHelpPage(response.locals));
+});
+
 // 首页聚合系统所有主要入口，方便主会场快速进入对应控制页。
 app.get("/", async (request, response) => {
   const config = response.locals.config;
@@ -63,6 +67,7 @@ app.get("/", async (request, response) => {
             <p>当前已纳管 ${roomCount} 个分会场、${groupCount} 个分组。系统支持固定会场接入、统一每日口令、分组主持入口、总主持人统一调度，以及配合 Edge 和 Revolver Tabs 的轮巡查看模式。</p>
             <div class="button-row">
               <a class="button primary" href="${routePath(response.locals, "/master")}">总主持人入口</a>
+              <a class="button" href="${routePath(response.locals, "/help")}">使用说明</a>
               <a class="button" href="${routePath(response.locals, "/admin")}">系统管理</a>
             </div>
           </div>
@@ -693,6 +698,88 @@ function renderQrPage(locals, items) {
             `
           )
           .join("")}
+      </section>
+    `
+  });
+}
+
+function renderHelpPage(locals) {
+  return renderPage({
+    title: "使用说明",
+    body: `
+      <section class="panel">
+        <div class="eyebrow">使用说明</div>
+        <h1>进入逻辑与密码逻辑说明</h1>
+        <p>这套系统是在 BigBlueButton 会议内核之外，加了一层中文业务门户。门户负责固定入口、统一口令、分组入口和总控入口，真正的会议仍在 BigBlueButton 中进行。</p>
+      </section>
+      <section class="panel">
+        <h2>一、四类入口</h2>
+        <div class="grid cards">
+          <article class="card">
+            <strong>分会场入口</strong>
+            <span>链接格式：<code>/join/分会场标识</code></span>
+            <span>使用对象：每个分会场终端。</span>
+            <span>进入后是普通参会权限。</span>
+          </article>
+          <article class="card">
+            <strong>房间主持入口</strong>
+            <span>链接格式：<code>/moderator/分会场标识</code></span>
+            <span>使用对象：负责该会场的主持人。</span>
+            <span>进入后是该房间主持权限。</span>
+          </article>
+          <article class="card">
+            <strong>分组主持入口</strong>
+            <span>链接格式：<code>/group/分组标识</code></span>
+            <span>使用对象：9 个分组主持人。</span>
+            <span>登录后可查看本组全部分会场，并批量打开主持页面。</span>
+          </article>
+          <article class="card">
+            <strong>总主持人入口</strong>
+            <span>链接格式：<code>/master</code></span>
+            <span>使用对象：总主持人。</span>
+            <span>登录后可查看全部分组和全部分会场。</span>
+          </article>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>二、三层密码逻辑</h2>
+        <div class="grid cards">
+          <article class="card">
+            <strong>每日统一口令</strong>
+            <span>这是会前统一通知给所有人的口令。</span>
+            <span>分会场、分组主持、总主持人，进入门户时都要填写这一层口令。</span>
+            <span>管理员可以在“系统管理”页面按天修改。</span>
+          </article>
+          <article class="card">
+            <strong>房间内部参会密码</strong>
+            <span>这是系统自动调用 BigBlueButton 时使用的房间级密码。</span>
+            <span>分会场用户不会直接看到这个密码，门户会代为跳转。</span>
+          </article>
+          <article class="card">
+            <strong>后台管理员密码</strong>
+            <span>这是进入“系统管理”页面的独立口令。</span>
+            <span>它和每日统一口令不是同一个用途。</span>
+          </article>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>三、典型使用流程</h2>
+        <ul class="list">
+          <li>管理员会前进入“系统管理”，修改每日统一口令。</li>
+          <li>管理员把各分会场固定链接或二维码发给对应会场，把分组主持入口发给分组主持人。</li>
+          <li>分会场用户打开自己的固定链接，填写会场名称和当日统一口令后入会。</li>
+          <li>分组主持人进入本组工作台，查看本组分会场状态，并按需打开多个主持页面。</li>
+          <li>总主持人进入总控台，统一查看全部分组和全部固定会场。</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>四、当前默认信息</h2>
+        <ul class="list">
+          <li>已预置 10 个分组、20 个分会场，可继续在后台增加。</li>
+          <li>当前每日统一口令：<code>123456</code></li>
+          <li>当前后台管理员密码：<code>grid-admin-20260320</code></li>
+          <li>二维码导出入口：<code>/admin/qrcodes</code></li>
+        </ul>
       </section>
     `
   });
