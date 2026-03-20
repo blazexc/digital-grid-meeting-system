@@ -35,6 +35,7 @@
 npm install
 copy data\\rooms.example.json data\\rooms.json
 set PORT=18080
+set APP_BASE_PATH=
 set PORTAL_BASE_URL=http://127.0.0.1:18080
 set BBB_BASE_URL=https://room.shukunnet.com:16443/bigbluebutton/api
 set BBB_SECRET=请替换为真实密钥
@@ -50,6 +51,12 @@ docker compose up -d --build
 ```
 
 默认对外暴露 `18080` 端口，建议通过反向代理映射到 `https://room.shukunnet.com:16443/portal/` 或独立二级路径。
+
+如果通过同域名子路径反代，例如 `/portal`，请额外设置：
+
+```bash
+set APP_BASE_PATH=/portal
+```
 
 ## 目录结构
 

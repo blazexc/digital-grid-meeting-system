@@ -9,6 +9,7 @@
 必须配置以下环境变量：
 
 - `PORT`：门户监听端口，建议 `18080`
+- `APP_BASE_PATH`：可选。如果反代到同域名子路径，例如 `/portal`，请设为 `/portal`
 - `PORTAL_BASE_URL`：门户对外基础地址，例如 `https://room.shukunnet.com:16443/portal`
 - `BBB_BASE_URL`：`BBB API` 地址，例如 `https://room.shukunnet.com:16443/bigbluebutton/api`
 - `BBB_SECRET`：`BBB` 共享密钥
