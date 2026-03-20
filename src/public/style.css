@@ -1,0 +1,256 @@
+:root {
+  --bg: #edf2f7;
+  --panel: #ffffff;
+  --panel-alt: #f8fafc;
+  --text: #14213d;
+  --muted: #52627a;
+  --line: #d7dee8;
+  --primary: #005f73;
+  --primary-hover: #0a7b92;
+  --danger: #b42318;
+  --success: #12724a;
+  --shadow: 0 20px 40px rgba(20, 33, 61, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(0, 95, 115, 0.12), transparent 24%),
+    linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%);
+  color: var(--text);
+}
+
+.shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+}
+
+.hero,
+.panel {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(215, 222, 232, 0.9);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+}
+
+.narrow {
+  width: min(520px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p,
+ul {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+p,
+span,
+li,
+label {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.cards {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.admin-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--panel-alt) 100%);
+}
+
+.card-room {
+  min-height: 190px;
+}
+
+.room-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status.online {
+  background: rgba(18, 114, 74, 0.12);
+  color: var(--success);
+}
+
+.status.offline {
+  background: rgba(180, 35, 24, 0.12);
+  color: var(--danger);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button.primary {
+  border-color: transparent;
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.button.primary:hover {
+  background: var(--primary-hover);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #ffffff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 220px;
+}
+
+.checkbox {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.error {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(180, 35, 24, 0.08);
+  color: var(--danger);
+}
+
+.list {
+  padding-left: 20px;
+}
+
+.qr-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.qr-card img {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+.qr-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}

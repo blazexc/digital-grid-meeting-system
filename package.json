@@ -1,0 +1,24 @@
+{
+  "name": "grid-meeting-portal",
+  "version": "0.1.0",
+  "description": "基于 BigBlueButton 的数字化网格管理会议系统总控门户",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "keywords": [
+    "bigbluebutton",
+    "video-conference",
+    "portal",
+    "chinese"
+  ],
+  "author": "OpenAI Codex",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "qrcode": "^1.5.4"
+  }
+}

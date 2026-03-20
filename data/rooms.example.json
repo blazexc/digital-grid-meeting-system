@@ -1,0 +1,45 @@
+{
+  "siteName": "数字化网格管理会议系统",
+  "dailyPassword": "123456",
+  "updatedAt": "2026-03-20T00:00:00.000Z",
+  "rooms": [
+    {
+      "slug": "fenhuichang-01",
+      "name": "第一分会场",
+      "meetingId": "fenhuichang-01",
+      "groupSlug": "group-a",
+      "order": 1,
+      "attendeePassword": "attendee-01",
+      "moderatorPassword": "moderator-01",
+      "record": true,
+      "muteOnStart": true,
+      "welcomeMessage": "欢迎进入第一分会场，请根据主持人指令进行发言。",
+      "dialNumber": ""
+    },
+    {
+      "slug": "fenhuichang-02",
+      "name": "第二分会场",
+      "meetingId": "fenhuichang-02",
+      "groupSlug": "group-a",
+      "order": 2,
+      "attendeePassword": "attendee-02",
+      "moderatorPassword": "moderator-02",
+      "record": true,
+      "muteOnStart": true,
+      "welcomeMessage": "欢迎进入第二分会场，请根据主持人指令进行发言。",
+      "dialNumber": ""
+    }
+  ],
+  "groups": [
+    {
+      "slug": "group-a",
+      "name": "第一组",
+      "order": 1,
+      "wallSize": 4,
+      "description": "默认示例分组，可继续扩展。"
+    }
+  ],
+  "wall": {
+    "defaultSecondsPerTab": 20
+  }
+}
