@@ -6,12 +6,12 @@ services:
     ports:
       - "18080:18080"
     environment:
-      PORT: 18080
-      PORTAL_BASE_URL: http://127.0.0.1:18080
-      BBB_BASE_URL: https://room.shukunnet.com:16443/bigbluebutton/api
-      BBB_SECRET: please-change-me
-      ADMIN_PASSWORD: please-change-me
-      SESSION_SECRET: please-change-me
-      SITE_NAME: 数字化网格管理会议系统
+      PORT: ${PORT:-18080}
+      PORTAL_BASE_URL: ${PORTAL_BASE_URL:-http://127.0.0.1:18080}
+      BBB_BASE_URL: ${BBB_BASE_URL:-https://room.shukunnet.com:16443/bigbluebutton/api}
+      BBB_SECRET: ${BBB_SECRET}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET}
+      SITE_NAME: ${SITE_NAME:-数字化网格管理会议系统}
     volumes:
       - ./data:/app/data
